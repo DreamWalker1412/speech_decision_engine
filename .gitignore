@@ -96,3 +96,6 @@ venv.bak/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# One time used scripts
+create_project_structure.sh
