@@ -1,4 +1,4 @@
-# main.py
+# src/main.py
 
 import asyncio
 from asr import transcribe_audio

@@ -1,7 +1,13 @@
 # tests/test_context.py
 
 import unittest
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from src.context import ContextManager
+
+
 
 class TestContextManager(unittest.TestCase):
     def test_add_and_retrieve_history(self):

@@ -1,4 +1,4 @@
-# decision.py
+# src/decision.py
 
 async def should_respond(analysis: dict) -> bool:
     """

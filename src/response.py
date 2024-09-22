@@ -1,4 +1,4 @@
-# response.py
+# src/response.py
 
 from vtuber import VtuberController
 

@@ -1,4 +1,4 @@
-# nlu.py
+# src/nlu.py
 
 async def analyze_text(text: str) -> dict:
     """

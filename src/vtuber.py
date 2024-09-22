@@ -1,4 +1,4 @@
-# vtuber.py
+# src/vtuber.py
 
 import asyncio
 import websockets
@@ -8,14 +8,20 @@ from typing import Optional, Deque
 from collections import deque
 import statistics
 import logging
-from .config import VTUBER_CONFIG
+import os
+
+from src.config import VTUBER_CONFIG
+
+# Create logs directory if it doesn't exist
+logs_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'logs'))
+os.makedirs(logs_dir, exist_ok=True)
 
 # 设置日志
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s %(levelname)s:%(message)s',
     handlers=[
-        logging.FileHandler("vtuber_controller.log"),
+        logging.FileHandler(os.path.join(logs_dir, "vtuber_controller.log"), encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
@@ -28,7 +34,8 @@ class VtuberController:
         host: str = "127.0.0.1", 
         port: int = 8001,
         latency_window: int = 100,
-        latency_threshold: float = 2.0
+        latency_threshold: float = 2.0,
+        watchdog_interval: float = 10.0  # 新增参数，默认10秒
     ):
         """
         初始化Vtuber控制器。
@@ -39,6 +46,7 @@ class VtuberController:
         :param port: VTubeStudio API的端口号
         :param latency_window: 用于计算统计数据的延迟记录数量
         :param latency_threshold: 延迟阈值（秒）
+        :param watchdog_interval: 看门狗检查间隔（秒）
         """
         self.api_key = api_key
         self.vtuber_name = vtuber_name
@@ -52,6 +60,7 @@ class VtuberController:
 
         # 看门狗阈值
         self.latency_threshold = latency_threshold  # 秒
+        self.watchdog_interval = watchdog_interval  # 秒
         self.watchdog_task = None
 
     async def connect(self):
@@ -144,7 +153,7 @@ class VtuberController:
         """
         try:
             while True:
-                await asyncio.sleep(10)  # 每10秒检查一次
+                await asyncio.sleep(self.watchdog_interval)  # 使用配置的间隔时间
                 async with self.latency_lock:
                     if len(self.latencies) == 0:
                         continue

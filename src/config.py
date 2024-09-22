@@ -1,4 +1,4 @@
-# config.py
+# src/config.py
 
 # 可以在这里集中管理所有配置参数
 ASR_CONFIG = {
