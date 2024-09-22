@@ -21,5 +21,7 @@ VTUBER_CONFIG = {
     "vtuber_name": "YourVtuber",
     "host": "127.0.0.1",
     "port": 8001,
+    "latency_window": 100,       # 延迟记录窗口大小
+    "latency_threshold": 2.0,    # 延迟阈值（秒）
     # 其他Vtuber相关配置
 }

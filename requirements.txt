@@ -8,3 +8,6 @@ websocket-client
 
 # Testing frameworks
 pytest
+
+# Latency statistics
+statistics

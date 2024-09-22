@@ -1,13 +1,14 @@
 # tests/test_vtuber.py
 
-import sys
-import os
-import json
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 import unittest
 from unittest.mock import patch, AsyncMock
 from src.vtuber import VtuberController
+import asyncio
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
 class TestVtuberController(unittest.IsolatedAsyncioTestCase):
     @patch('src.vtuber.websockets.connect', new_callable=AsyncMock)

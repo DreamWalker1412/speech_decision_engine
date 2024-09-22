@@ -1,7 +1,7 @@
 # tests/test_context.py
 
 import unittest
-from context import ContextManager
+from src.context import ContextManager
 
 class TestContextManager(unittest.TestCase):
     def test_add_and_retrieve_history(self):
