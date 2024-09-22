@@ -1,0 +1,10 @@
+# requirements.txt
+
+# Network requests
+websockets
+
+# Vtuber API client
+websocket-client
+
+# Testing frameworks
+pytest
