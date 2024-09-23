@@ -1,0 +1,34 @@
+{
+    "modelLoaded": true,
+    "modelName": "hiyori",
+    "modelID": "0f5ae2c1772146538894c9c05df35b94",
+    "availableHotkeys": [
+        {
+            "name": "My Animation 1",
+            "type": "TriggerAnimation",
+            "description": "Triggers an animation",
+            "file": "hiyori_m03.motion3.json",
+            "hotkeyID": "a6b4ae4ae72640cebc73c15df658d89b",
+            "keyCombination": [],
+            "onScreenButtonID": 1
+        },
+        {
+            "name": "My Animation 2",
+            "type": "TriggerAnimation",
+            "description": "Triggers an animation",
+            "file": "hiyori_m06.motion3.json",
+            "hotkeyID": "3f5cda7a35be4becabac04bf36ce1c29",
+            "keyCombination": [],
+            "onScreenButtonID": 2
+        },
+        {
+            "name": "My Animation 3",
+            "type": "TriggerAnimation",
+            "description": "Triggers an animation",
+            "file": "hiyori_m10.motion3.json",
+            "hotkeyID": "2fab1cb3750c4a5fa55ddf49b09ad9c3",
+            "keyCombination": [],
+            "onScreenButtonID": 3
+        }
+    ]
+}

@@ -1,5 +1,8 @@
 # src/config.py
 
+import base64
+import os
+
 # 可以在这里集中管理所有配置参数
 ASR_CONFIG = {
     "model": "placeholder_for_asr_model",
@@ -15,6 +18,14 @@ TTS_CONFIG = {
     "model": "placeholder_for_tts_model",
     # 其他TTS相关配置
 }
+
+
+currentDir = os.path.dirname(os.path.realpath(__file__))
+iconImagePath = os.path.join(currentDir, "../resources", "icon.png")
+
+# Read the resized image and encode it to base64
+with open(iconImagePath, "rb") as image_file:
+    iconImage = base64.b64encode(image_file.read()).decode("utf-8")
 
 VTUBER_CONFIG = {
     "api_key": "your_api_key",
@@ -36,5 +47,10 @@ VTUBER_CONFIG = {
         "wave": "Hiyori_Wave",
         "nod": "Hiyori_Nod",
         # 添加更多动作
-    }
+    },
+    # 认证相关配置
+    "pluginName": "My Cool Plugin",
+    "pluginDeveloper": "Andrew",
+    "pluginIcon": iconImage,  # Base64 编码的 PNG 或 JPG 图像（128x128 像素）
+    "authenticationToken": os.getenv("VTUBESTUDIO_AUTH_TOKEN"),
 }

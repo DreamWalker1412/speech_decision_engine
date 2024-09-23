@@ -99,3 +99,6 @@ Thumbs.db
 
 # One time used scripts
 create_project_structure.sh
+
+# ignore secrets
+/secrets/

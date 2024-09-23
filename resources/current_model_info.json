@@ -1,0 +1,21 @@
+{
+    "modelLoaded": true,
+    "modelName": "hiyori",
+    "modelID": "0f5ae2c1772146538894c9c05df35b94",
+    "vtsModelName": "hiyori.vtube.json",
+    "vtsModelIconName": "icon.jpg",
+    "live2DModelName": "hiyori.model3.json",
+    "modelLoadTime": 2903,
+    "timeSinceModelLoaded": 6715657,
+    "numberOfLive2DParameters": 74,
+    "numberOfLive2DArtmeshes": 133,
+    "hasPhysicsFile": true,
+    "numberOfTextures": 2,
+    "textureResolution": 2048,
+    "modelPosition": {
+        "positionX": 0.10283935070037842,
+        "positionY": 0.06378054618835449,
+        "rotation": 360.0,
+        "size": -75.97740936279297
+    }
+}
