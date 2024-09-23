@@ -10,7 +10,7 @@ import statistics
 import logging
 import os
 
-from src.config import VTUBER_CONFIG
+from .config import VTUBER_CONFIG
 
 # Create logs directory if it doesn't exist
 logs_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'logs'))
@@ -35,7 +35,7 @@ class VtuberController:
         port: int = 8001,
         latency_window: int = 100,
         latency_threshold: float = 2.0,
-        watchdog_interval: float = 10.0  # 新增参数，默认10秒
+        watchdog_interval: float = 10.0  # 默认10秒
     ):
         """
         初始化Vtuber控制器。
@@ -62,6 +62,10 @@ class VtuberController:
         self.latency_threshold = latency_threshold  # 秒
         self.watchdog_interval = watchdog_interval  # 秒
         self.watchdog_task = None
+
+        # 表情和动作配置
+        self.expressions = VTUBER_CONFIG.get("expressions", {})
+        self.motions = VTUBER_CONFIG.get("motions", {})
 
     async def connect(self):
         """
@@ -95,16 +99,21 @@ class VtuberController:
             logging.error("认证失败")
             raise ConnectionError("VTubeStudio API认证失败")
 
-    async def set_expression(self, expression_name: str):
+    async def set_expression(self, expression_key: str):
         """
         设置Vtuber的表情，并记录延迟。
 
-        :param expression_name: 表情名称，例如 "happy", "sad" 等
+        :param expression_key: 表情键，例如 "happy", "sad" 等
         """
         if not self.connected or not self.websocket:
             logging.warning("尚未连接到VTubeStudio API")
             return
-        
+
+        expression_name = self.expressions.get(expression_key)
+        if not expression_name:
+            logging.error(f"未知的表情键: {expression_key}")
+            return
+
         command = {
             "requestType": "SetExpression",
             "parameters": {
@@ -129,6 +138,46 @@ class VtuberController:
                 logging.error(f"设置表情失败: {response_data}")
         except Exception as e:
             logging.error(f"设置表情时出错: {e}")
+
+    async def set_motion(self, motion_key: str):
+        """
+        设置Vtuber的动作，并记录延迟。
+
+        :param motion_key: 动作键，例如 "wave", "nod" 等
+        """
+        if not self.connected or not self.websocket:
+            logging.warning("尚未连接到VTubeStudio API")
+            return
+
+        motion_name = self.motions.get(motion_key)
+        if not motion_name:
+            logging.error(f"未知的动作键: {motion_key}")
+            return
+
+        command = {
+            "requestType": "SetMotion",
+            "parameters": {
+                "motionName": motion_name
+            }
+        }
+
+        try:
+            start_time = time.perf_counter()
+            await self.websocket.send(json.dumps(command))
+            response = await self.websocket.recv()
+            end_time = time.perf_counter()
+
+            latency = end_time - start_time
+            async with self.latency_lock:
+                self.latencies.append(latency)
+
+            response_data = json.loads(response)
+            if response_data.get("responseType") == "SetMotion":
+                logging.info(f"成功设置动作为: {motion_name}，延迟: {latency:.3f} 秒")
+            else:
+                logging.error(f"设置动作失败: {response_data}")
+        except Exception as e:
+            logging.error(f"设置动作时出错: {e}")
 
     async def close(self):
         """

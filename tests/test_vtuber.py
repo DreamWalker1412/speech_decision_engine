@@ -47,7 +47,7 @@ class TestVtuberController(unittest.IsolatedAsyncioTestCase):
         expected_command = {
             "requestType": "SetExpression",
             "parameters": {
-                "expressionName": "happy"
+                "expressionName": "Hiyori_Happy"
             }
         }
         mock_ws.send.assert_awaited_with(json.dumps(expected_command))

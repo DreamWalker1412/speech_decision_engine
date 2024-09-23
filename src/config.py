@@ -18,10 +18,23 @@ TTS_CONFIG = {
 
 VTUBER_CONFIG = {
     "api_key": "your_api_key",
-    "vtuber_name": "YourVtuber",
+    "vtuber_name": "Hiyori_A",  # 使用Hiyori_A模型
     "host": "127.0.0.1",
     "port": 8001,
     "latency_window": 100,       # 延迟记录窗口大小
     "latency_threshold": 2.0,    # 延迟阈值（秒）
-    # 其他Vtuber相关配置
+    "watchdog_interval": 10.0,   # 看门狗检查间隔（秒）
+    # Hiyori_A 特定配置
+    "expressions": {
+        "happy": "Hiyori_Happy",
+        "sad": "Hiyori_Sad",
+        "thinking": "Hiyori_Thinking",
+        "concerned": "Hiyori_Concerned",
+        "neutral": "Hiyori_Neutral"
+    },
+    "motions": {
+        "wave": "Hiyori_Wave",
+        "nod": "Hiyori_Nod",
+        # 添加更多动作
+    }
 }

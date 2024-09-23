@@ -1,12 +1,13 @@
 # src/main.py
 
 import asyncio
-from asr import transcribe_audio
-from nlu import analyze_text
-from decision import should_respond
-from response import ResponseGenerator
-from context import ContextManager
-from vtuber import VtuberController
+from .config import VTUBER_CONFIG, ASR_CONFIG, NLU_CONFIG, TTS_CONFIG
+from .asr import transcribe_audio
+from .nlu import analyze_text
+from .decision import should_respond
+from .response import ResponseGenerator
+from .context import ContextManager
+from .vtuber import VtuberController
 
 async def process_audio_async(audio_path: str, response_generator: ResponseGenerator, context_manager: ContextManager):
     try:
@@ -34,7 +35,7 @@ async def process_audio_async(audio_path: str, response_generator: ResponseGener
             context_manager.add_to_history(transcribed_text, response_text)
 
             # 步骤5：文本转语音
-            from tts import text_to_speech  # 避免循环导入
+            from .tts import text_to_speech  # 避免循环导入
             output_audio = "response.mp3"
             await text_to_speech(response_text, output_audio)
         else:
@@ -46,12 +47,23 @@ async def process_audio_async(audio_path: str, response_generator: ResponseGener
 
 async def main_async():
     # 配置
-    API_KEY = "your_api_key"  # 替换为您的VTubeStudio API密钥
-    VTUBER_NAME = "YourVtuber"  # 替换为您的Vtuber名称
+    API_KEY = VTUBER_CONFIG["api_key"]  # 替换为您的VTubeStudio API密钥
+    VTUBER_NAME = VTUBER_CONFIG["vtuber_name"]  # 使用Hiyori_A
+    HOST = VTUBER_CONFIG.get("host", "127.0.0.1")
+    PORT = VTUBER_CONFIG.get("port", 8001)
+    LATENCY_THRESHOLD = VTUBER_CONFIG.get("latency_threshold", 2.0)
+    WATCHDOG_INTERVAL = VTUBER_CONFIG.get("watchdog_interval", 10.0)
 
     # 初始化模块
     context_manager = ContextManager()
-    vtuber = VtuberController(api_key=API_KEY, vtuber_name=VTUBER_NAME)
+    vtuber = VtuberController(
+        api_key=API_KEY, 
+        vtuber_name=VTUBER_NAME, 
+        host=HOST, 
+        port=PORT,
+        latency_threshold=LATENCY_THRESHOLD,
+        watchdog_interval=WATCHDOG_INTERVAL
+    )
     await vtuber.connect()
     response_generator = ResponseGenerator(vtuber=vtuber)
 

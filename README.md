@@ -2,6 +2,32 @@
 
 ELF AI is an advanced AI-powered virtual YouTuber (vTuber) system designed to create more natural and engaging interactions with viewers. This project focuses on enhancing ELF AI's ability to decide when to speak, with a particular emphasis on determining appropriate moments for interruption.
 
+## 项目结构
+speech_decision_engine/
+├── src/
+│   ├── __init__.py
+│   ├── asr.py
+│   ├── nlu.py
+│   ├── tts.py
+│   ├── vtuber.py
+│   ├── context.py
+│   ├── decision.py
+│   ├── response.py
+│   ├── main.py
+│   └── config.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_context.py
+│   ├── test_vtuber.py
+│   ├── test_vtuber_latency.py
+│   ├── test_vtuber_integration.py  # 新增的测试文件
+│   ├── test_asr.py
+│   ├── test_nlu.py
+│   ├── test_tts.py
+│   └── ...
+├── requirements.txt
+└── README.md
+
 
 ## 更新后的模块化设计
 

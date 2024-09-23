@@ -1,6 +1,6 @@
 # src/response.py
 
-from vtuber import VtuberController
+from .vtuber import VtuberController
 
 class ResponseGenerator:
     def __init__(self, vtuber: VtuberController):
@@ -12,12 +12,14 @@ class ResponseGenerator:
 
         if intent == "greet":
             await self.vtuber.set_expression("happy")
+            await self.vtuber.set_motion("wave")  # 添加挥手动作
             return "Hello! How can I assist you today?"
         elif intent == "ask_help":
             await self.vtuber.set_expression("thinking")
             return "Sure, I'm here to help. What do you need assistance with?"
         elif intent == "goodbye":
             await self.vtuber.set_expression("sad")
+            await self.vtuber.set_motion("nod")  # 添加点头动作
             return "Goodbye! Have a great day!"
         elif intent == "book_flight":
             await self.vtuber.set_expression("neutral")

@@ -9,8 +9,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from src.vtuber import VtuberController
 import asyncio
 
-
-
 class TestVtuberLatency(unittest.IsolatedAsyncioTestCase):
     @patch('src.vtuber.websockets.connect', new_callable=AsyncMock)
     async def test_set_expression_with_normal_latency(self, mock_connect):
@@ -22,7 +20,12 @@ class TestVtuberLatency(unittest.IsolatedAsyncioTestCase):
         mock_ws.recv.return_value = '{"apiVersion": 1}'
 
         # 创建VtuberController实例，设置watchdog_interval为1秒
-        vtuber = VtuberController(api_key="dummy_key", vtuber_name="DummyVtuber", latency_threshold=1.0, watchdog_interval=1.0)
+        vtuber = VtuberController(
+            api_key="dummy_key", 
+            vtuber_name="Hiyori_A", 
+            latency_threshold=1.0, 
+            watchdog_interval=1.0
+        )
         await vtuber.connect()
 
         # 模拟设置表情响应
@@ -43,7 +46,12 @@ class TestVtuberLatency(unittest.IsolatedAsyncioTestCase):
         mock_ws.recv.return_value = '{"apiVersion": 1}'
 
         # 创建VtuberController实例，设置watchdog_interval为1秒
-        vtuber = VtuberController(api_key="dummy_key", vtuber_name="DummyVtuber", latency_threshold=1.0, watchdog_interval=1.0)
+        vtuber = VtuberController(
+            api_key="dummy_key", 
+            vtuber_name="Hiyori_A", 
+            latency_threshold=1.0, 
+            watchdog_interval=1.0
+        )
         await vtuber.connect()
 
         # 模拟设置表情响应，增加人为延迟
@@ -69,7 +77,12 @@ class TestVtuberLatency(unittest.IsolatedAsyncioTestCase):
         mock_ws.recv.return_value = '{"apiVersion": 1}'
 
         # 创建VtuberController实例，设置watchdog_interval为1秒
-        vtuber = VtuberController(api_key="dummy_key", vtuber_name="DummyVtuber", latency_threshold=1.0, watchdog_interval=1.0)
+        vtuber = VtuberController(
+            api_key="dummy_key", 
+            vtuber_name="Hiyori_A", 
+            latency_threshold=1.0, 
+            watchdog_interval=1.0
+        )
         await vtuber.connect()
 
         # Mock notify_admin to track its calls
@@ -103,7 +116,12 @@ class TestVtuberLatency(unittest.IsolatedAsyncioTestCase):
         mock_ws.recv.return_value = '{"apiVersion": 1}'
 
         # 创建VtuberController实例，设置watchdog_interval为1秒
-        vtuber = VtuberController(api_key="dummy_key", vtuber_name="DummyVtuber", latency_threshold=1.0, watchdog_interval=1.0)
+        vtuber = VtuberController(
+            api_key="dummy_key", 
+            vtuber_name="Hiyori_A", 
+            latency_threshold=1.0, 
+            watchdog_interval=1.0
+        )
         await vtuber.connect()
 
         # Mock notify_admin to track its calls
@@ -129,12 +147,17 @@ class TestVtuberLatency(unittest.IsolatedAsyncioTestCase):
         mock_ws.recv.return_value = '{"apiVersion": 1}'
 
         # 创建VtuberController实例，设置watchdog_interval为1秒
-        vtuber = VtuberController(api_key="dummy_key", vtuber_name="DummyVtuber", latency_threshold=1.0, watchdog_interval=1.0)
+        vtuber = VtuberController(
+            api_key="dummy_key", 
+            vtuber_name="Hiyori_A", 
+            latency_threshold=1.0, 
+            watchdog_interval=1.0
+        )
         await vtuber.connect()
 
         # Mock notify_admin to track its calls
         with patch.object(vtuber, 'notify_admin', new_callable=AsyncMock) as mock_notify_admin:
-            # 模拟设置表情：前3次正常，后2次高延迟
+            # 模拟设置表情：前3次正常延迟，后2次高延迟
             normal_response = '{"responseType": "SetExpression"}'
             high_latency_response = '{"responseType": "SetExpression"}'
 
