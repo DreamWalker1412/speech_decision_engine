@@ -405,6 +405,85 @@ class VtuberController:
         except Exception as e:
             logger.exception(f"获取热键列表时发生错误: {e}")
             return None
+        
+    async def trigger_hotkey(self, hotkey_identifier: str, item_instance_id: Optional[str] = None):
+        """
+        触发指定的热键。
+
+        :param hotkey_identifier: 热键的唯一ID或名称
+        :param item_instance_id: 可选的Live2D项目实例ID，用于在特定Live2D项目上触发热键
+        :return: 触发的热键ID，如果失败则返回None
+        """
+        if not self.websocket:
+            logger.warning("尚未连接到VTubeStudio API")
+            return None
+
+        try:
+            request_id = "TriggerHotkey_" + os.urandom(8).hex()
+            request = {
+                "apiName": "VTubeStudioPublicAPI",
+                "apiVersion": "1.0",
+                "requestID": request_id,
+                "messageType": "HotkeyTriggerRequest",
+                "data": {
+                    "hotkeyID": hotkey_identifier
+                }
+            }
+
+            if item_instance_id:
+                request["data"]["itemInstanceID"] = item_instance_id
+
+            await self.websocket.send(json.dumps(request))
+            response = await self.websocket.recv()
+            response_data = json.loads(response)
+
+            if response_data["messageType"] == "HotkeyTriggerResponse":
+                triggered_hotkey_id = response_data["data"]["hotkeyID"]
+                logger.info(f"成功触发热键: {triggered_hotkey_id}")
+                
+                # 保存触发的热键信息到文件
+                self.save_to_file("last_triggered_hotkey.txt", f"Hotkey ID: {triggered_hotkey_id}\nTriggered at: {response_data['timestamp']}")
+                
+                return triggered_hotkey_id
+            else:
+                error_message = response_data.get("data", {}).get("message", "未知错误")
+                logger.error(f"触发热键失败: {error_message}")
+                return None
+
+        except Exception as e:
+            logger.exception(f"触发热键时发生错误: {e}")
+            return None
+
+    async def trigger_animation(self, animation_name: str):
+        """
+        触发指定名称的动画热键。
+
+        :param animation_name: 动画的名称
+        :return: 触发的热键ID，如果失败则返回None
+        """
+        try:
+            # 首先获取可用的热键列表
+            hotkeys_data = await self.get_available_hotkeys()
+            if not hotkeys_data:
+                logger.error("无法获取热键列表")
+                return None
+
+            # 查找匹配的动画热键
+            matching_hotkey = next(
+                (hotkey for hotkey in hotkeys_data['availableHotkeys'] 
+                if hotkey['type'] == 'TriggerAnimation' and hotkey['name'] == animation_name),
+                None
+            )
+
+            if matching_hotkey:
+                return await self.trigger_hotkey(matching_hotkey['hotkeyID'])
+            else:
+                logger.error(f"未找到名为 '{animation_name}' 的动画热键")
+                return None
+
+        except Exception as e:
+            logger.exception(f"触发动画时发生错误: {e}")
+            return None
 
     def save_to_file(self, filename: str, data: str):
         """

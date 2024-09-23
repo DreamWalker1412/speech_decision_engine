@@ -156,7 +156,61 @@ class TestVtuberIntegration(unittest.IsolatedAsyncioTestCase):
 
         logger.info("成功获取并验证热键列表。")
 
+    async def test_trigger_hotkey(self):
+        """
+        测试触发所有指定的热键。
+        """
+        # Read hotkey IDs from JSON file
+        hotkeys_data = self.read_json_file("available_hotkeys.json")
+        hotkeys = hotkeys_data["availableHotkeys"]
 
+        for hotkey in hotkeys:
+            hotkey_id = hotkey["hotkeyID"]
+
+            # Trigger the hotkey
+            triggered_hotkey_id = await self.vtuber.trigger_hotkey(hotkey_id)
+
+            # Verify the results
+            self.assertIsNotNone(triggered_hotkey_id, f"未能触发热键 {hotkey_id}。")
+            self.assertEqual(triggered_hotkey_id, hotkey_id, f"触发的热键ID {triggered_hotkey_id} 不匹配 {hotkey_id}。")
+
+            logger.info(f"成功触发并验证热键 {hotkey_id}。")
+
+            # Wait for a short duration to allow the hotkey to execute
+            await asyncio.sleep(2)  # Adjust the duration as needed
+
+    async def test_trigger_animation(self):
+        """
+        测试触发所有指定名称的动画热键。
+        """
+        # Read animation names from JSON file
+        hotkeys_data = self.read_json_file("available_hotkeys.json")
+        animations = [hotkey for hotkey in hotkeys_data["availableHotkeys"] if hotkey["type"] == "TriggerAnimation"]
+
+        for animation in animations:
+            animation_name = animation["name"]
+
+            # Trigger the animation
+            triggered_hotkey_id = await self.vtuber.trigger_animation(animation_name)
+
+            # Verify the results
+            self.assertIsNotNone(triggered_hotkey_id, f"未能触发动画热键 {animation_name}。")
+
+            logger.info(f"成功触发并验证动画热键 {animation_name}。")
+
+            # Wait for a short duration to allow the animation to execute
+            await asyncio.sleep(2)  # Adjust the duration as needed
+
+    def read_json_file(self, filename):
+        """
+        读取 JSON 文件并返回数据。
+        """
+        resources_dir = Path(__file__).resolve().parents[1] / "resources"
+        file_path = resources_dir / filename
+
+        with open(file_path, 'r', encoding="utf8") as f:
+            data = json.load(f)
+        return data
 
 if __name__ == '__main__':
     unittest.main()
