@@ -1,0 +1,432 @@
+{
+    "modelLoaded": true,
+    "modelName": "魔法少女",
+    "modelID": "1c464c93965044e4891bf32057796427",
+    "expressions": [
+        {
+            "name": "哭哭",
+            "file": "哭哭.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "哭哭f3",
+                    "id": "94230f76014447c8b912a975890e7264"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param212",
+                    "value": 1.0
+                },
+                {
+                    "name": "Param235",
+                    "value": 1.0
+                },
+                {
+                    "name": "ParamMouthForm",
+                    "value": -1.0
+                }
+            ]
+        },
+        {
+            "name": "圈圈眼",
+            "file": "圈圈眼.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "圈圈眼f4",
+                    "id": "c2550604fc61455bb3cf16182de10b4a"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param208",
+                    "value": 1.0
+                },
+                {
+                    "name": "Param209",
+                    "value": 1.0
+                },
+                {
+                    "name": "Param211",
+                    "value": 1.0
+                },
+                {
+                    "name": "Param212",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "摸下巴",
+            "file": "摸下巴.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "摸下巴ctrl+q",
+                    "id": "752bace2964c4248bd93832276ea632d"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param236",
+                    "value": 1.0
+                },
+                {
+                    "name": "Param324",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "放下魔法杖",
+            "file": "放下魔法杖.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "变身后放下法杖ctrl+w",
+                    "id": "64fca08528024d9c874c98f28fc2c067"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param324",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "星星眼",
+            "file": "星星眼.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "星星眼f5",
+                    "id": "ddfd9e16e85343648579ffb8568ee5db"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param224",
+                    "value": 1.0
+                },
+                {
+                    "name": "Param225",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "水印消失",
+            "file": "水印消失.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "水印消失ctrl+alt",
+                    "id": "22654af4d7964b7796782a915725584d"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "ParamEyeHeart3",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "流泪",
+            "file": "流泪.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [],
+            "parameters": [
+                {
+                    "name": "Param235",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "生气",
+            "file": "生气.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "生气f6",
+                    "id": "64153eacc8714c468b6422b2046c7a54"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "ParamEyeHeart2",
+                    "value": 1.0
+                },
+                {
+                    "name": "Param213",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "粉眼镜",
+            "file": "粉眼镜.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "粉眼镜f10",
+                    "id": "2472cdb073444ddb89bbf4ec39c52329"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param206",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "翅膀",
+            "file": "翅膀.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "jk模式翅膀出现ctrl+u",
+                    "id": "831011f35c944833b80c12ebb99cf024"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param274",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "脸红",
+            "file": "脸红.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "脸红f7",
+                    "id": "0918f47ee37e4e25988f77bf64bfd8ec"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "ParamEyeHeart",
+                    "value": 1.0
+                },
+                {
+                    "name": "Param212",
+                    "value": 0.9856485724449158
+                },
+                {
+                    "name": "Param220",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "问号",
+            "file": "问号.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "问号f8",
+                    "id": "99c01b767c25437fbacf9c681239e192"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param209",
+                    "value": 1.0
+                },
+                {
+                    "name": "Param212",
+                    "value": 1.0
+                },
+                {
+                    "name": "Param223",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "黑眼镜",
+            "file": "黑眼镜.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "黑眼镜f11",
+                    "id": "9c061f936f9247a694f0ef475afebe31"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param205",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "黑脸",
+            "file": "黑脸.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "黑脸f9",
+                    "id": "7c4abf5e5a5d4fa28d6d02a4edcc4fd6"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param212",
+                    "value": 1.0
+                },
+                {
+                    "name": "Param219",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "jk模式魔法杖",
+            "file": "jk模式魔法杖.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "jk模式拿起魔法杖ctrl+e",
+                    "id": "4f09d54456d54b70a267a57a65e3a32b"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param238",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "动画后头环隐藏",
+            "file": "动画后头环隐藏.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "变身后头环隐藏ctrl+r",
+                    "id": "5ebc1d752d5149d08ef788ec5f79afd5"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param323",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "动画后翅膀隐藏",
+            "file": "动画后翅膀隐藏.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "变身后翅膀隐藏ctrl+t",
+                    "id": "125912dc66564113b8664c418d26e14e"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param322",
+                    "value": 1.0
+                }
+            ]
+        },
+        {
+            "name": "头环",
+            "file": "头环.exp3.json",
+            "active": false,
+            "deactivateWhenKeyIsLetGo": false,
+            "autoDeactivateAfterSeconds": false,
+            "secondsRemaining": 0.0,
+            "secondsSinceLastActive": 0.0,
+            "usedInHotkeys": [
+                {
+                    "name": "jk模式头环出现ctrl+y",
+                    "id": "00bdcfa8adbd42c590b9506800ab3d53"
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "Param275",
+                    "value": 1.0
+                }
+            ]
+        }
+    ]
+}

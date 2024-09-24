@@ -536,6 +536,66 @@ class VtuberController:
         except Exception as e:
             logger.exception(f"获取表情列表时发生错误: {e}")
             return None
+    
+    async def activate_expression(self, expression_file: str, active: bool = True, fade_time: float = 0.25):
+        """
+        激活或停用指定的表情。
+
+        :param expression_file: 表情文件名（必须以.exp3.json结尾）
+        :param active: 是否激活表情（True为激活，False为停用）
+        :param fade_time: 淡入时间（秒），在0到2秒之间
+        :return: 如果成功返回True，否则返回False
+        """
+        if not self.websocket:
+            logger.warning("尚未连接到VTubeStudio API")
+            return False
+
+        if not expression_file.endswith('.exp3.json'):
+            logger.error(f"无效的表情文件名: {expression_file}. 必须以.exp3.json结尾")
+            return False
+
+        # 确保fade_time在0到2秒之间
+        fade_time = max(0, min(fade_time, 2))
+
+        try:
+            request_id = "ActivateExpression_" + os.urandom(8).hex()
+            request = {
+                "apiName": "VTubeStudioPublicAPI",
+                "apiVersion": "1.0",
+                "requestID": request_id,
+                "messageType": "ExpressionActivationRequest",
+                "data": {
+                    "expressionFile": expression_file,
+                    "fadeTime": fade_time,
+                    "active": active
+                }
+            }
+
+            await self.websocket.send(json.dumps(request))
+            response = await self.websocket.recv()
+            response_data = json.loads(response)
+
+            if response_data["messageType"] == "ExpressionActivationResponse":
+                action = "激活" if active else "停用"
+                logger.info(f"成功{action}表情: {expression_file}")
+                
+                # 保存最近激活/停用的表情信息到文件
+                status = "Activated" if active else "Deactivated"
+                self.save_to_file("last_expression_action.txt", 
+                                f"Expression: {expression_file}\n"
+                                f"Action: {status}\n"
+                                f"Fade Time: {fade_time}\n"
+                                f"Timestamp: {response_data['timestamp']}")
+                
+                return True
+            else:
+                error_message = response_data.get("data", {}).get("message", "未知错误")
+                logger.error(f"表情激活/停用失败: {error_message}")
+                return False
+
+        except Exception as e:
+            logger.exception(f"表情激活/停用时发生错误: {e}")
+            return False
 
     def save_to_file(self, filename: str, data: str):
         """

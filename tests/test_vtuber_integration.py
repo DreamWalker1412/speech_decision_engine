@@ -215,6 +215,33 @@ class TestVtuberIntegration(unittest.IsolatedAsyncioTestCase):
 
         logger.info("成功获取并验证表情列表。")
 
+    async def test_activate_expression(self):
+        """
+        测试激活和停用所有指定的表情。
+        """
+        # Read expression data from JSON file
+        expressions_data = self.read_json_file("available_expressions.json")
+        expressions = expressions_data["expressions"]
+
+        for expression in expressions:
+            expression_file = expression["file"]
+
+            # Activate the expression
+            result = await self.vtuber.activate_expression(expression_file, active=True, fade_time=0.5)
+            self.assertTrue(result, f"未能激活表情 {expression_file}。")
+            logger.info(f"成功激活表情 {expression_file}。")
+
+            # Wait for a short duration to allow the expression to activate
+            await asyncio.sleep(2)  # Adjust the duration as needed
+
+            # Deactivate the expression
+            result = await self.vtuber.activate_expression(expression_file, active=False, fade_time=0.5)
+            self.assertTrue(result, f"未能停用表情 {expression_file}。")
+            logger.info(f"成功停用表情 {expression_file}。")
+
+            # Wait for a short duration to allow the expression to deactivate
+            await asyncio.sleep(2)  # Adjust the duration as needed
+
     def read_json_file(self, filename):
         """
         读取 JSON 文件并返回数据。
