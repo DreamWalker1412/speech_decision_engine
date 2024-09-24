@@ -5,7 +5,7 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 import websockets
 from .config import VTUBER_CONFIG
 
@@ -596,6 +596,109 @@ class VtuberController:
         except Exception as e:
             logger.exception(f"表情激活/停用时发生错误: {e}")
             return False
+        
+    async def get_tracking_parameters(self):
+        """
+        获取当前可用的跟踪参数列表，包括默认参数和自定义参数。
+        该函数有冷却时间，以防止过于频繁的调用。
+
+        :return: 包含参数信息的字典，如果出错或冷却中则返回None
+        """
+        if not self.websocket:
+            logger.warning("尚未连接到VTubeStudio API")
+            return None
+
+        try:
+            request_id = "GetTrackingParams_" + os.urandom(8).hex()
+            request = {
+                "apiName": "VTubeStudioPublicAPI",
+                "apiVersion": "1.0",
+                "requestID": request_id,
+                "messageType": "InputParameterListRequest"
+            }
+
+            await self.websocket.send(json.dumps(request))
+            response = await self.websocket.recv()
+            response_data = json.loads(response)
+
+            if response_data["messageType"] == "InputParameterListResponse":
+                parameters_data = response_data["data"]
+                
+                if parameters_data["modelLoaded"]:
+                    logger.info(f"成功获取跟踪参数列表。模型: {parameters_data['modelName']}")
+                    
+                    # 保存完整的参数信息到JSON文件
+                    self.save_to_file("tracking_parameters.json", json.dumps(parameters_data, ensure_ascii=False, indent=4))
+                    
+                    return parameters_data
+                else:
+                    logger.warning("当前没有加载模型，无法获取跟踪参数信息")
+                    return None
+            else:
+                error_message = response_data.get("data", {}).get("message", "未知错误")
+                logger.error(f"获取跟踪参数列表失败: {error_message}")
+                return None
+
+        except Exception as e:
+            logger.exception(f"获取跟踪参数列表时发生错误: {e}")
+            return None
+    
+    async def get_parameter_value(self, parameter_name: str):
+        """
+        获取特定参数（默认或自定义）的当前值。
+
+        :param parameter_name: 参数名称
+        :return: 包含参数信息的字典，如果出错则返回None
+        """
+        if not self.websocket:
+            logger.warning("尚未连接到VTubeStudio API")
+            return None
+
+        try:
+            request_id = "GetParameterValue_" + os.urandom(8).hex()
+            request = {
+                "apiName": "VTubeStudioPublicAPI",
+                "apiVersion": "1.0",
+                "requestID": request_id,
+                "messageType": "ParameterValueRequest",
+                "data": {
+                    "name": parameter_name
+                }
+            }
+
+            await self.websocket.send(json.dumps(request))
+            response = await self.websocket.recv()
+            response_data = json.loads(response)
+
+            if response_data["messageType"] == "ParameterValueResponse":
+                parameter_data = response_data["data"]
+                logger.info(f"成功获取参数 '{parameter_name}' 的值")
+                
+                # 保存参数信息到文件 for debugging
+                # self.save_to_file(f"parameter_{parameter_name}.json", json.dumps(parameter_data, ensure_ascii=False, indent=4))
+                
+                return parameter_data
+            else:
+                error_message = response_data.get("data", {}).get("message", "未知错误")
+                logger.error(f"获取参数 '{parameter_name}' 的值失败: {error_message}")
+                return None
+
+        except Exception as e:
+            logger.exception(f"获取参数 '{parameter_name}' 的值时发生错误: {e}")
+            return None
+
+    async def get_multiple_parameter_values(self, parameter_names: List[str]):
+        """
+        获取多个参数的当前值。
+
+        :param parameter_names: 参数名称列表
+        :return: 包含参数信息的字典列表，如果出错则相应位置为None
+        """
+        results = []
+        for name in parameter_names:
+            result = await self.get_parameter_value(name)
+            results.append(result)
+        return results
 
     def save_to_file(self, filename: str, data: str):
         """

@@ -28,7 +28,6 @@ with open(iconImagePath, "rb") as image_file:
     iconImage = base64.b64encode(image_file.read()).decode("utf-8")
 
 VTUBER_CONFIG = {
-    "api_key": "your_api_key",
     "vtuber_name": "Hiyori_A",  # 使用Hiyori_A模型
     "host": "127.0.0.1",
     "port": 8001,

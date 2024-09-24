@@ -242,6 +242,72 @@ class TestVtuberIntegration(unittest.IsolatedAsyncioTestCase):
             # Wait for a short duration to allow the expression to deactivate
             await asyncio.sleep(2)  # Adjust the duration as needed
 
+    async def test_get_tracking_parameters(self):
+        """
+        测试获取当前可用的跟踪参数列表功能。
+        """
+        # Call the method
+        tracking_parameters = await self.vtuber.get_tracking_parameters()
+
+        # Verify the results
+        self.assertIsNotNone(tracking_parameters, "未能获取跟踪参数列表。")
+        self.assertIn("modelName", tracking_parameters, "跟踪参数列表中缺少 'modelName' 字段。")
+        self.assertIn("defaultParameters", tracking_parameters, "跟踪参数列表中缺少 'parameters' 字段。")
+        self.assertIn("customParameters", tracking_parameters, "跟踪参数列表中缺少 'parameters' 字段。")
+        self.assertIsInstance(tracking_parameters["defaultParameters"], list, "'defaultParameters' 字段应为列表。")
+        self.assertIsInstance(tracking_parameters["customParameters"], list, "'customParameters' 字段应为列表。")
+
+        logger.info("成功获取并验证跟踪参数列表。")
+
+    async def test_get_parameter_value(self):
+        """
+        测试获取所有指定的参数的当前值。
+        """
+        # Read tracking parameters from JSON file
+        tracking_parameters_data = self.read_json_file("tracking_parameters.json")
+        parameters = tracking_parameters_data["defaultParameters"]
+
+        for parameter in parameters:
+            parameter_name = parameter["name"]
+
+            # Get the parameter value
+            parameter_data = await self.vtuber.get_parameter_value(parameter_name)
+
+            # Verify the results
+            self.assertIsNotNone(parameter_data, f"未能获取参数 '{parameter_name}' 的值。")
+            self.assertIn("name", parameter_data, f"参数数据中缺少 'name' 字段。")
+            self.assertIn("value", parameter_data, f"参数数据中缺少 'value' 字段。")
+            self.assertEqual(parameter_data["name"], parameter_name, f"参数名称不匹配。期望: {parameter_name}, 实际: {parameter_data['name']}")
+
+            logger.info(f"成功获取并验证参数 '{parameter_name}' 的值。")
+
+            # Wait for a short duration to avoid rate limiting
+            await asyncio.sleep(0.1)  # Adjust the duration as needed
+
+    async def test_get_multiple_parameter_values(self):
+        """
+        测试获取多个参数的当前值功能。
+        """
+        # Read tracking parameters from JSON file
+        tracking_parameters_data = self.read_json_file("tracking_parameters.json")
+        parameters = tracking_parameters_data["defaultParameters"]
+        parameter_names = [parameter["name"] for parameter in parameters]
+
+        # Get the parameter values
+        parameter_values = await self.vtuber.get_multiple_parameter_values(parameter_names)
+
+        # Verify the results
+        for parameter_name, parameter_data in zip(parameter_names, parameter_values):
+            self.assertIsNotNone(parameter_data, f"未能获取参数 '{parameter_name}' 的值。")
+            self.assertIn("name", parameter_data, f"参数数据中缺少 'name' 字段。")
+            self.assertIn("value", parameter_data, f"参数数据中缺少 'value' 字段。")
+            self.assertEqual(parameter_data["name"], parameter_name, f"参数名称不匹配。期望: {parameter_name}, 实际: {parameter_data['name']}")
+
+            logger.info(f"成功获取并验证参数 '{parameter_name}' 的值。")
+
+            # Wait for a short duration to avoid rate limiting
+            await asyncio.sleep(0.1)  # Adjust the duration as needed
+
     def read_json_file(self, filename):
         """
         读取 JSON 文件并返回数据。
