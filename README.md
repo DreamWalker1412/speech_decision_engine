@@ -20,7 +20,7 @@ speech_decision_engine/
 │   ├── test_context.py
 │   ├── test_vtuber.py
 │   ├── test_vtuber_latency.py
-│   ├── test_vtuber_integration.py  # 新增的测试文件
+│   ├── test_vtuber_integration.py
 │   ├── test_asr.py
 │   ├── test_nlu.py
 │   ├── test_tts.py
@@ -519,7 +519,12 @@ advanced_speaking_judgment/
 ├── tests/
 │   ├── test_context.py
 │   ├── test_vtuber.py
-│   └── ...
+│   ├── test_vtuber_latency.py
+│   ├── test_vtuber_integration.py
+│   ├── test_asr.py
+│   ├── test_nlu.py
+│   ├── test_tts.py
+│   └── test_main.py
 └── README.md
 ```
 
@@ -532,7 +537,7 @@ advanced_speaking_judgment/
 1. **安装 VTubeStudio**：下载并安装 [VTubeStudio](https://www.vtubestudio.com/)。
 2. **启用 API 功能**：
    - 打开 VTubeStudio，进入设置。
-   - 在 “Plugin” 或 “API” 选项中，启用 API 功能。
+   - 在 "Plugin" 或 "API" 选项中，启用 API 功能。
    - 设置 API 密钥（与 `config.py` 中的 `api_key` 相同）。
 3. **配置 Vtuber 表情**：在 VTubeStudio 中，确保已定义所需的表情名称，例如 `happy`, `sad`, `thinking`, `concerned`, `neutral` 等。
 
