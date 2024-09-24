@@ -25,7 +25,6 @@ class TestVtuberIntegration(unittest.IsolatedAsyncioTestCase):
         """
         # 初始化 VtuberController 实例
         self.vtuber = VtuberController(
-            api_key=VTUBER_CONFIG.get("api_key", ""),
             vtuber_name=VTUBER_CONFIG.get("vtuber_name", ""),
             host=VTUBER_CONFIG.get("host", "127.0.0.1"),
             port=VTUBER_CONFIG.get("port", 8001),
@@ -200,6 +199,21 @@ class TestVtuberIntegration(unittest.IsolatedAsyncioTestCase):
 
             # Wait for a short duration to allow the animation to execute
             await asyncio.sleep(2)  # Adjust the duration as needed
+    
+    async def test_get_expression_list(self):
+        """
+        测试获取当前模型的表情列表功能。
+        """
+        # Call the method
+        expressions_data = await self.vtuber.get_expression_list()
+
+        # Verify the results
+        self.assertIsNotNone(expressions_data, "未能获取表情列表。")
+        self.assertIn("modelName", expressions_data, "表情列表中缺少 'modelName' 字段。")
+        self.assertIn("expressions", expressions_data, "表情列表中缺少 'expressions' 字段。")
+        self.assertIsInstance(expressions_data["expressions"], list, "'expressions' 字段应为列表。")
+
+        logger.info("成功获取并验证表情列表。")
 
     def read_json_file(self, filename):
         """

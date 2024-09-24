@@ -13,9 +13,8 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 class VtuberController:
-    def __init__(self, api_key: str, vtuber_name: str, host: str, port: int,
+    def __init__(self, vtuber_name: str, host: str, port: int,
                  latency_threshold: float, watchdog_interval: float):
-        self.api_key = api_key
         self.vtuber_name = vtuber_name
         self.host = VTUBER_CONFIG["host"]  # Use host from config
         self.port = VTUBER_CONFIG["port"]  # Use port from config
@@ -483,6 +482,59 @@ class VtuberController:
 
         except Exception as e:
             logger.exception(f"触发动画时发生错误: {e}")
+            return None
+    
+    async def get_expression_list(self, details: bool = True, expression_file: Optional[str] = None):
+        """
+        获取当前模型的表情列表，并将信息保存到文件。
+
+        :param details: 是否请求详细信息
+        :param expression_file: 可选的特定表情文件名
+        :return: 包含表情信息的字典，如果出错则返回None
+        """
+        if not self.websocket:
+            logger.warning("尚未连接到VTubeStudio API")
+            return None
+
+        try:
+            request_id = "GetExpressions_" + os.urandom(8).hex()
+            request = {
+                "apiName": "VTubeStudioPublicAPI",
+                "apiVersion": "1.0",
+                "requestID": request_id,
+                "messageType": "ExpressionStateRequest",
+                "data": {
+                    "details": details
+                }
+            }
+
+            if expression_file:
+                request["data"]["expressionFile"] = expression_file
+
+            await self.websocket.send(json.dumps(request))
+            response = await self.websocket.recv()
+            response_data = json.loads(response)
+
+            if response_data["messageType"] == "ExpressionStateResponse":
+                expressions_data = response_data["data"]
+                
+                if expressions_data["modelLoaded"]:
+                    logger.info(f"成功获取表情列表。模型: {expressions_data['modelName']}, 表情数量: {len(expressions_data['expressions'])}")
+                    
+                    # 保存完整的表情信息到JSON文件
+                    self.save_to_file("available_expressions.json", json.dumps(expressions_data, ensure_ascii=False, indent=4))
+                    
+                    return expressions_data
+                else:
+                    logger.warning("当前没有加载模型，无法获取表情信息")
+                    return None
+            else:
+                error_message = response_data.get("data", {}).get("message", "未知错误")
+                logger.error(f"获取表情列表失败: {error_message}")
+                return None
+
+        except Exception as e:
+            logger.exception(f"获取表情列表时发生错误: {e}")
             return None
 
     def save_to_file(self, filename: str, data: str):
